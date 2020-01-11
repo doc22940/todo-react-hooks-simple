@@ -27,3 +27,4 @@ node_modules
 dist
 coverage/
 .vscode/
+init.sh.bak
