@@ -6,9 +6,7 @@
       "module-resolver",
       {
         "root": ["./src"],
-        "alias": {
-          "@images": "./assets/images"
-        }
+        "alias": {}
       }
     ]
   ]

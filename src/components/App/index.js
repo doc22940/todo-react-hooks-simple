@@ -1,13 +1,13 @@
 import React from "react";
+import AddButton from "../../components/AddButton";
 import "./index.css";
-import dog from "@images/dog.jpg";
 
 const App = () => {
   return (
-    <main className="App">
-      <h1>Hello World!</h1>
-      <img src={dog} alt="" />
-    </main>
+    <div className="App">
+      <h1>Inbox</h1>
+      <AddButton />
+    </div>
   );
 };
 
