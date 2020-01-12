@@ -1,19 +1,24 @@
 import React from "react";
-import { List, Button, Checkbox, Grid } from "semantic-ui-react";
+import { List, Grid, Button, Checkbox } from "semantic-ui-react";
+import "./index.css";
 
-const TaskList = ({ list }) => {
+const TaskList = ({ list, onCheckBoxClicked }) => {
   return (
     <List celled>
       {list.map((item, index) => (
         <List.Item key={index}>
-          <Grid verticalAlign="middle" columns={2}>
+          <Grid verticalAlign="middle">
             <Grid.Row>
-              <Grid.Column>
+              <Grid.Column width={13}>
                 <List.Content>
-                  <Checkbox label={item} />
+                  <Checkbox
+                    label={item}
+                    className="taskCheckbox"
+                    onMouseUp={() => onCheckBoxClicked(index)}
+                  />
                 </List.Content>
               </Grid.Column>
-              <Grid.Column>
+              <Grid.Column width={3}>
                 <List.Content floated="right">
                   <Button icon="trash" size="tiny" circular></Button>
                 </List.Content>

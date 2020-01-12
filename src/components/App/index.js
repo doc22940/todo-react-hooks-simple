@@ -16,11 +16,19 @@ const App = () => {
     event.preventDefault();
   };
 
+  const onCheckBoxClicked = taskCompletedIndex => {
+    // Remove the completed task
+    const updatedTasksList = tasksList.filter(
+      (_, index) => taskCompletedIndex != index
+    );
+    setTasksList(updatedTasksList);
+  };
+
   return (
     <div className="App">
       <main>
         <h1>Inbox</h1>
-        <TaskList list={tasksList} />
+        <TaskList list={tasksList} onCheckBoxClicked={onCheckBoxClicked} />
         <AddTask
           value={taskDescription}
           onSubmit={onTaskSubmit}
