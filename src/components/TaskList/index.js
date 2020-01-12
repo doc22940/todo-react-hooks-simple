@@ -1,15 +1,25 @@
 import React from "react";
-import { List, Checkbox } from "semantic-ui-react";
+import { List, Button, Checkbox, Grid } from "semantic-ui-react";
 
 const TaskList = ({ list }) => {
   return (
-    <List divided relaxed>
+    <List celled>
       {list.map((item, index) => (
         <List.Item key={index}>
-          <List.Icon>
-            <Checkbox />
-          </List.Icon>
-          <List.Content>{item}</List.Content>
+          <Grid verticalAlign="middle" columns={2}>
+            <Grid.Row>
+              <Grid.Column>
+                <List.Content>
+                  <Checkbox label={item} />
+                </List.Content>
+              </Grid.Column>
+              <Grid.Column>
+                <List.Content floated="right">
+                  <Button icon="trash" size="tiny" circular></Button>
+                </List.Content>
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
         </List.Item>
       ))}
     </List>
