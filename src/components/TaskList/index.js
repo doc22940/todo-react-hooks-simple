@@ -6,9 +6,10 @@ const TaskList = ({ list }) => {
     <List divided relaxed>
       {list.map((item, index) => (
         <List.Item key={index}>
-          <List.Content>
-            <Checkbox label={item} />
-          </List.Content>
+          <List.Icon>
+            <Checkbox />
+          </List.Icon>
+          <List.Content>{item}</List.Content>
         </List.Item>
       ))}
     </List>
