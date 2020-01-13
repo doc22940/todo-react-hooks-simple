@@ -1,20 +1,27 @@
 import React from "react";
-import { Form } from "semantic-ui-react";
+import Input from "@material-ui/core/Input";
+import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
 
 const AddTask = ({ value, onSubmit, onChange }) => {
   return (
     <div>
-      <Form onSubmit={onSubmit}>
-        <Form.Group>
-          <Form.Input
-            placeholder="Task"
-            name="task"
-            value={value}
-            onChange={onChange}
-          />
-          <Form.Button content="Add Task" />
-        </Form.Group>
-      </Form>
+      <form onSubmit={onSubmit}>
+        <Grid container direction="row" alignItems="flex-end">
+          <Grid item xs={8}>
+            <Input
+              placeholder="Placeholder"
+              value={value}
+              onChange={onChange}
+            />
+          </Grid>
+          <Grid item xs={4}>
+            <Button variant="contained" type="submit">
+              Add Task
+            </Button>
+          </Grid>
+        </Grid>
+      </form>
     </div>
   );
 };

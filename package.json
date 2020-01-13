@@ -31,10 +31,10 @@
     "prettier": "^1.19.1"
   },
   "dependencies": {
+    "@material-ui/core": "^4.8.3",
+    "@material-ui/icons": "^4.5.1",
     "react": "^16.10.2",
-    "react-dom": "^16.10.2",
-    "semantic-ui-css": "^2.4.1",
-    "semantic-ui-react": "^0.88.2"
+    "react-dom": "^16.10.2"
   },
   "browserslist": [
     "last 2 Chrome versions",
