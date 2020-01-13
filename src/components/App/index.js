@@ -2,20 +2,28 @@ import React, { useState, Fragment } from "react";
 import AddTask from "../AddTask";
 import TaskList from "../../components/TaskList";
 import Header from "../Header";
+import MenuDrawer from "../MenuDrawer";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
-import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    display: "flex"
+  },
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing(3)
+  },
+  toolbar: theme.mixins.toolbar
+}));
 
 const App = () => {
-  const theme = createMuiTheme();
-
-  theme.typography.h1 = {
-    fontSize: "2rem"
-  };
+  const classes = useStyles();
 
   const [taskDescription, setTaskDescription] = useState("");
   const [tasksList, setTasksList] = useState([]);
+  const [drawerMobileOpen, setDrawerMobileOpen] = useState(false);
 
   const onInputChange = event => setTaskDescription(event.target.value);
 
@@ -53,14 +61,23 @@ const App = () => {
     setTasksList(updatedTasksList);
   };
 
+  const handleDrawerToggle = () => {
+    console.log("handle");
+    setDrawerMobileOpen(!drawerMobileOpen);
+  };
+
   return (
     <Fragment>
       <CssBaseline />
-      <div>
-        <ThemeProvider theme={theme}>
-          <Header title="Inbox" />
-
-          <Container maxWidth="sm">
+      <div className={classes.root}>
+        <Header title="Inbox" handleToggle={handleDrawerToggle} />
+        <MenuDrawer
+          mobileOpen={drawerMobileOpen}
+          handleDrawerToggle={handleDrawerToggle}
+        />
+        <main className={classes.content}>
+          <div className={classes.toolbar} />
+          <Container fixed>
             <TaskList
               list={tasksList}
               onCheckBoxClicked={onCheckBoxClicked}
@@ -72,7 +89,7 @@ const App = () => {
               onChange={onInputChange}
             />
           </Container>
-        </ThemeProvider>
+        </main>
       </div>
     </Fragment>
   );
