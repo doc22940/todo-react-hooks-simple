@@ -1,6 +1,7 @@
 import React, { useState, Fragment } from "react";
 import AddTask from "../AddTask";
 import TaskList from "../../components/TaskList";
+import Header from "../Header";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
@@ -57,9 +58,8 @@ const App = () => {
       <CssBaseline />
       <div>
         <ThemeProvider theme={theme}>
-          <Typography variant="h1" gutterBottom>
-            Inbox
-          </Typography>
+          <Header title="Inbox" />
+
           <Container maxWidth="sm">
             <TaskList
               list={tasksList}
