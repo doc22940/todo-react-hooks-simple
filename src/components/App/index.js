@@ -19,17 +19,23 @@ const App = () => {
   const onInputChange = event => setTaskDescription(event.target.value);
 
   const onTaskSubmit = event => {
-    const updatedTasksList = [...tasksList, taskDescription];
+    const id = tasksList.length;
+    const task = { id: id, name: taskDescription, completed: false };
+    const updatedTasksList = [...tasksList, task];
+
+    console.log(updatedTasksList);
+
     setTasksList(updatedTasksList);
     setTaskDescription("");
     event.preventDefault();
   };
 
-  const onCheckBoxClicked = taskCompletedIndex => {
-    // Remove the completed task
-    const updatedTasksList = tasksList.filter(
-      (_, index) => taskCompletedIndex != index
+  const onCheckBoxClicked = taskCompletedId => {
+    // Mark the task as complete
+    const updatedTasksList = tasksList.map(item =>
+      item.id == taskCompletedId ? { ...item, completed: true } : item
     );
+    console.log(updatedTasksList);
     setTasksList(updatedTasksList);
   };
 

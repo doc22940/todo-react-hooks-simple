@@ -6,8 +6,8 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
 import Checkbox from "@material-ui/core/Checkbox";
-import CommentIcon from "@material-ui/icons/Comment";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
+import IconButton from "@material-ui/core/IconButton";
 import Divider from "@material-ui/core/Divider";
 
 const useStyles = makeStyles(() => ({
@@ -21,26 +21,28 @@ const TaskList = ({ list, onCheckBoxClicked }) => {
 
   return (
     <List>
-      {list.map((item, index) => (
-        <Fragment key={`${item}_${index}`}>
-          <ListItem dense className={classes.listItem}>
-            <ListItemIcon>
-              <Checkbox
-                edge="start"
-                tabIndex={-1}
-                onChange={() => onCheckBoxClicked(index)}
-              />
-            </ListItemIcon>
-            <ListItemText primary={item} />
-            <ListItemSecondaryAction>
-              <DeleteForeverIcon edge="end" aria-label="comments">
-                <CommentIcon />
-              </DeleteForeverIcon>
-            </ListItemSecondaryAction>
-          </ListItem>
-          <Divider />
-        </Fragment>
-      ))}
+      {list
+        .filter(item => item.completed == false)
+        .map(item => (
+          <Fragment key={item.id}>
+            <ListItem dense className={classes.listItem}>
+              <ListItemIcon>
+                <Checkbox
+                  edge="start"
+                  tabIndex={-1}
+                  onChange={() => onCheckBoxClicked(item.id)}
+                />
+              </ListItemIcon>
+              <ListItemText primary={item.name} />
+              <ListItemSecondaryAction>
+                <IconButton edge="end" aria-label="comments">
+                  <DeleteForeverIcon />
+                </IconButton>
+              </ListItemSecondaryAction>
+            </ListItem>
+            <Divider />
+          </Fragment>
+        ))}
     </List>
   );
 };
