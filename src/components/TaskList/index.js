@@ -16,13 +16,13 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const TaskList = ({ list, onCheckBoxClicked }) => {
+const TaskList = ({ list, onCheckBoxClicked, onDeleteClicked }) => {
   const classes = useStyles();
 
   return (
     <List>
       {list
-        .filter(item => item.completed == false)
+        .filter(item => item.completed == false && item.deleted == false)
         .map(item => (
           <Fragment key={item.id}>
             <ListItem dense className={classes.listItem}>
@@ -30,11 +30,11 @@ const TaskList = ({ list, onCheckBoxClicked }) => {
                 <Checkbox
                   edge="start"
                   tabIndex={-1}
-                  onChange={() => onCheckBoxClicked(item.id)}
+                  onClick={() => onCheckBoxClicked(item.id)}
                 />
               </ListItemIcon>
               <ListItemText primary={item.name} />
-              <ListItemSecondaryAction>
+              <ListItemSecondaryAction onClick={() => onDeleteClicked(item.id)}>
                 <IconButton edge="end" aria-label="comments">
                   <DeleteForeverIcon />
                 </IconButton>

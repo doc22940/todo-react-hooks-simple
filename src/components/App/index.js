@@ -20,7 +20,12 @@ const App = () => {
 
   const onTaskSubmit = event => {
     const id = tasksList.length;
-    const task = { id: id, name: taskDescription, completed: false };
+    const task = {
+      id: id,
+      name: taskDescription,
+      completed: false,
+      deleted: false
+    };
     const updatedTasksList = [...tasksList, task];
 
     console.log(updatedTasksList);
@@ -39,6 +44,14 @@ const App = () => {
     setTasksList(updatedTasksList);
   };
 
+  const onDeleteClicked = taskDeletedId => {
+    const updatedTasksList = tasksList.map(item =>
+      item.id == taskDeletedId ? { ...item, deleted: true } : item
+    );
+    console.log(updatedTasksList);
+    setTasksList(updatedTasksList);
+  };
+
   return (
     <Fragment>
       <CssBaseline />
@@ -48,7 +61,11 @@ const App = () => {
             Inbox
           </Typography>
           <Container maxWidth="sm">
-            <TaskList list={tasksList} onCheckBoxClicked={onCheckBoxClicked} />
+            <TaskList
+              list={tasksList}
+              onCheckBoxClicked={onCheckBoxClicked}
+              onDeleteClicked={onDeleteClicked}
+            />
             <AddTask
               value={taskDescription}
               onSubmit={onTaskSubmit}
