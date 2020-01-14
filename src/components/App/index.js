@@ -12,8 +12,7 @@ const useStyles = makeStyles(theme => ({
     display: "flex"
   },
   content: {
-    flexGrow: 1,
-    padding: theme.spacing(3)
+    flexGrow: 1
   },
   toolbar: theme.mixins.toolbar
 }));
@@ -24,6 +23,7 @@ const App = () => {
   const [taskDescription, setTaskDescription] = useState("");
   const [tasksList, setTasksList] = useState([]);
   const [drawerMobileOpen, setDrawerMobileOpen] = useState(false);
+  const [showCompleted, setShowCompleted] = useState(false);
 
   const onInputChange = event => setTaskDescription(event.target.value);
 
@@ -66,14 +66,26 @@ const App = () => {
     setDrawerMobileOpen(!drawerMobileOpen);
   };
 
+  const handleMenuClick = actionClicked => {
+    if (actionClicked == "complete") {
+      console.log("completed");
+      setShowCompleted(!showCompleted);
+    }
+  };
+
   return (
     <Fragment>
       <CssBaseline />
       <div className={classes.root}>
-        <Header title="Inbox" handleToggle={handleDrawerToggle} />
+        <Header
+          title="Inbox"
+          handleToggle={handleDrawerToggle}
+          handleMenuClick={handleMenuClick}
+        />
         <MenuDrawer
           mobileOpen={drawerMobileOpen}
           handleDrawerToggle={handleDrawerToggle}
+          handleMenuClick={handleMenuClick}
         />
         <main className={classes.content}>
           <div className={classes.toolbar} />
@@ -82,6 +94,7 @@ const App = () => {
               list={tasksList}
               onCheckBoxClicked={onCheckBoxClicked}
               onDeleteClicked={onDeleteClicked}
+              showCompleted={showCompleted}
             />
             <AddTask
               value={taskDescription}
