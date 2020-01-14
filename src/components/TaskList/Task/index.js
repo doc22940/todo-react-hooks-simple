@@ -32,7 +32,7 @@ const Task = ({ onDeleteClicked, onCheckBoxClicked, disabled, item }) => {
         </ListItemIcon>
         <ListItemText primary={item.name} />
         <ListItemSecondaryAction onClick={() => onDeleteClicked(item.id)}>
-          <IconButton edge="end" aria-label="comments">
+          <IconButton edge="end" aria-label="delete">
             <DeleteForeverIcon />
           </IconButton>
         </ListItemSecondaryAction>

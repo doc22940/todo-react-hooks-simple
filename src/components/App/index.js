@@ -80,6 +80,20 @@ const App = () => {
     handleDrawerToggle;
   };
 
+  const handleProjectRemove = project => {
+    console.log("handleProjectRemove");
+    console.log(tasksList);
+    // Switch to Inbox when a project is deleted
+    setProject("Inbox");
+
+    const updatedTasksList = tasksList.map(item =>
+      item.project == project ? { ...item, deleted: true } : item
+    );
+
+    console.log(updatedTasksList);
+    setTasksList(updatedTasksList);
+  };
+
   return (
     <Fragment>
       <CssBaseline />
@@ -94,6 +108,7 @@ const App = () => {
           handleDrawerToggle={handleDrawerToggle}
           handleMenuClick={handleMenuClick}
           handleProjectClick={handleProjectClick}
+          handleProjectRemove={handleProjectRemove}
         />
         <main className={classes.content}>
           <div className={classes.toolbar} />

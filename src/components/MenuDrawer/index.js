@@ -12,10 +12,14 @@ import ExpandMore from "@material-ui/icons/ExpandMore";
 import Collapse from "@material-ui/core/Collapse";
 import FormatListBulletedIcon from "@material-ui/icons/FormatListBulleted";
 import AddIcon from "@material-ui/icons/Add";
+import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
+import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
+
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import ProjectDialog from "../ProjectDialog";
 
@@ -37,7 +41,12 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const MenuDrawer = ({ mobileOpen, handleDrawerToggle, handleProjectClick }) => {
+const MenuDrawer = ({
+  mobileOpen,
+  handleDrawerToggle,
+  handleProjectClick,
+  handleProjectRemove
+}) => {
   const classes = useStyles();
   const theme = useTheme();
 
@@ -79,6 +88,16 @@ const MenuDrawer = ({ mobileOpen, handleDrawerToggle, handleProjectClick }) => {
 
   const onDialogInputChange = event => setProject(event.target.value);
 
+  const removeProject = project => {
+    const updatedMenuProjects = menuProjects.filter(item => item != project);
+    console.log(project);
+    console.log(menuProjects);
+    console.log(updatedMenuProjects);
+    setMenuProjects(updatedMenuProjects);
+
+    handleProjectRemove(project);
+  };
+
   const drawer = (
     <div>
       <div className={classes.toolbar} />
@@ -115,6 +134,11 @@ const MenuDrawer = ({ mobileOpen, handleDrawerToggle, handleProjectClick }) => {
                   <InboxIcon />
                 </ListItemIcon>
                 <ListItemText primary={text} />
+                <ListItemSecondaryAction onClick={() => removeProject(text)}>
+                  <IconButton edge="end" aria-label="delete">
+                    <DeleteForeverIcon />
+                  </IconButton>
+                </ListItemSecondaryAction>
               </ListItem>
             ))}
             <ListItem

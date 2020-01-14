@@ -75,6 +75,7 @@ const Header = ({ title, handleToggle, handleMenuClick }) => {
       if (optionClicked.hasOwnProperty("secondaryOption")) {
         // Swap the attributes value to allow showing
         // the correct text next time the moreButton is clicked
+        // Show <--> Hide
         [optionClicked.primaryOption, optionClicked.secondaryOption] = [
           optionClicked.secondaryOption,
           optionClicked.primaryOption
