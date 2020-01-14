@@ -85,7 +85,7 @@ const App = () => {
       <CssBaseline />
       <div className={classes.root}>
         <Header
-          title="Inbox"
+          title={project}
           handleToggle={handleDrawerToggle}
           handleMenuClick={handleMenuClick}
         />
