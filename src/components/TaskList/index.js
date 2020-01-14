@@ -6,12 +6,18 @@ const TaskList = ({
   list,
   onCheckBoxClicked,
   onDeleteClicked,
-  showCompleted
+  showCompleted,
+  projectSelected
 }) => {
   return (
     <List>
       {list
-        .filter(item => item.completed == false && item.deleted == false)
+        .filter(
+          item =>
+            item.completed == false &&
+            item.deleted == false &&
+            item.project == projectSelected
+        )
         .map(item => (
           <Task
             key={item.id}
@@ -24,7 +30,12 @@ const TaskList = ({
       {/* Show the completed task at the end */}
       {showCompleted
         ? list
-            .filter(item => item.completed == true && item.deleted == false)
+            .filter(
+              item =>
+                item.completed == true &&
+                item.deleted == false &&
+                item.project == projectSelected
+            )
             .map(item => (
               <Task
                 key={item.id}

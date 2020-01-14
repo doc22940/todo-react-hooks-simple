@@ -24,6 +24,7 @@ const App = () => {
   const [tasksList, setTasksList] = useState([]);
   const [drawerMobileOpen, setDrawerMobileOpen] = useState(false);
   const [showCompleted, setShowCompleted] = useState(false);
+  const [project, setProject] = useState("Inbox");
 
   const onInputChange = event => setTaskDescription(event.target.value);
 
@@ -32,6 +33,7 @@ const App = () => {
     const task = {
       id: id,
       name: taskDescription,
+      project: project,
       completed: false,
       deleted: false
     };
@@ -73,6 +75,11 @@ const App = () => {
     }
   };
 
+  const handleProjectClick = projectClicked => {
+    setProject(projectClicked);
+    handleDrawerToggle;
+  };
+
   return (
     <Fragment>
       <CssBaseline />
@@ -86,6 +93,7 @@ const App = () => {
           mobileOpen={drawerMobileOpen}
           handleDrawerToggle={handleDrawerToggle}
           handleMenuClick={handleMenuClick}
+          handleProjectClick={handleProjectClick}
         />
         <main className={classes.content}>
           <div className={classes.toolbar} />
@@ -95,6 +103,7 @@ const App = () => {
               onCheckBoxClicked={onCheckBoxClicked}
               onDeleteClicked={onDeleteClicked}
               showCompleted={showCompleted}
+              projectSelected={project}
             />
             <AddTask
               value={taskDescription}

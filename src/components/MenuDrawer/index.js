@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Divider from "@material-ui/core/Divider";
 import Drawer from "@material-ui/core/Drawer";
 import Hidden from "@material-ui/core/Hidden";
@@ -24,17 +24,19 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const MenuDrawer = ({ mobileOpen, handleDrawerToggle }) => {
+const MenuDrawer = ({ mobileOpen, handleDrawerToggle, handleProjectClick }) => {
   const classes = useStyles();
   const theme = useTheme();
+
+  const [menuProjects, setMenuProjects] = useState(["Inbox", "App"]);
 
   const drawer = (
     <div>
       <div className={classes.toolbar} />
       <Divider />
       <List>
-        {["Inbox"].map(text => (
-          <ListItem button key={text}>
+        {menuProjects.map(text => (
+          <ListItem button key={text} onClick={() => handleProjectClick(text)}>
             <ListItemIcon>
               <InboxIcon />
             </ListItemIcon>
@@ -55,6 +57,7 @@ const MenuDrawer = ({ mobileOpen, handleDrawerToggle }) => {
             anchor={theme.direction === "rtl" ? "right" : "left"}
             open={mobileOpen}
             onClose={handleDrawerToggle}
+            onClick={handleDrawerToggle}
             classes={{
               paper: classes.drawerPaper
             }}
