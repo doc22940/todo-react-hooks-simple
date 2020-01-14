@@ -9,19 +9,14 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
-import Collapse from "@material-ui/core/Collapse";
 import FormatListBulletedIcon from "@material-ui/icons/FormatListBulleted";
-import AddIcon from "@material-ui/icons/Add";
-import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
-import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
-
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import ProjectDialog from "../ProjectDialog";
+import CollapsableMenu from "./CollapsableMenu";
 
 const drawerWidth = 240;
 
@@ -121,38 +116,13 @@ const MenuDrawer = ({
           <ListItemText primary="Project" />
           {nestedOpen ? <ExpandLess /> : <ExpandMore />}
         </ListItem>
-        <Collapse in={nestedOpen} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
-            {menuProjects.map(text => (
-              <ListItem
-                button
-                key={text}
-                onClick={() => handleProjectClick(text)}
-                className={classes.nested}
-              >
-                <ListItemIcon>
-                  <InboxIcon />
-                </ListItemIcon>
-                <ListItemText primary={text} />
-                <ListItemSecondaryAction onClick={() => removeProject(text)}>
-                  <IconButton edge="end" aria-label="delete">
-                    <DeleteForeverIcon />
-                  </IconButton>
-                </ListItemSecondaryAction>
-              </ListItem>
-            ))}
-            <ListItem
-              button
-              className={classes.nested}
-              onClick={handleDialogOpen}
-            >
-              <ListItemIcon>
-                <AddIcon />
-              </ListItemIcon>
-              <ListItemText primary="Add Project" />
-            </ListItem>
-          </List>
-        </Collapse>
+        <CollapsableMenu
+          nestedOpen={nestedOpen}
+          menuProjects={menuProjects}
+          handleProjectClick={handleProjectClick}
+          removeProject={removeProject}
+          handleDialogOpen={handleDialogOpen}
+        />
       </List>
       <ProjectDialog
         open={dialogOpen}
