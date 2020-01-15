@@ -33,6 +33,10 @@ const taskReducer = (state, action) => {
       return state.map(task =>
         task.id == action.id ? { ...task, completed: true } : task
       );
+    case "UNDO_TODO":
+      return state.map(task =>
+        task.id == action.id ? { ...task, completed: false } : task
+      );
     case "DELETE_TODO":
       return state.map(task =>
         task.id == action.id ? { ...task, deleted: true } : task
@@ -42,25 +46,29 @@ const taskReducer = (state, action) => {
   }
 };
 
+const filterReducer = (state, action) => {
+  switch (action.type) {
+    case "SHOW_ALL":
+      return "ALL";
+    case "SHOW_INCOMPLETE":
+      return "INCOMPLETE";
+    default:
+      throw new Error();
+  }
+};
+
 const App = () => {
   const classes = useStyles();
 
   const [tasks, dispatchTasks] = useReducer(taskReducer, []);
+  const [filter, dispatchFilter] = useReducer(filterReducer, "INCOMPLETE");
 
   const [drawerMobileOpen, setDrawerMobileOpen] = useState(false);
-  const [showCompleted, setShowCompleted] = useState(false);
   const [project, setProject] = useState("Inbox");
 
   const handleDrawerToggle = () => {
     console.log("handle");
     setDrawerMobileOpen(!drawerMobileOpen);
-  };
-
-  const handleMenuClick = actionClicked => {
-    if (actionClicked == "complete") {
-      console.log("completed");
-      setShowCompleted(!showCompleted);
-    }
   };
 
   const handleProjectClick = projectClicked => {
@@ -89,12 +97,11 @@ const App = () => {
         <Header
           title={project}
           handleToggle={handleDrawerToggle}
-          handleMenuClick={handleMenuClick}
+          dispatch={dispatchFilter}
         />
         <MenuDrawer
           mobileOpen={drawerMobileOpen}
           handleDrawerToggle={handleDrawerToggle}
-          handleMenuClick={handleMenuClick}
           handleProjectClick={handleProjectClick}
           handleProjectRemove={handleProjectRemove}
         />
@@ -103,8 +110,8 @@ const App = () => {
           <Container fixed>
             <TaskList
               tasks={tasks}
+              filter={filter}
               dispatch={dispatchTasks}
-              showCompleted={showCompleted}
               projectSelected={project}
             />
             <AddTask dispatch={dispatchTasks} />

@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
@@ -15,11 +15,17 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const TaskItem = ({ dispatch, disabled, task }) => {
+const TaskItem = ({ dispatch, task }) => {
   const classes = useStyles();
 
+  const [disabled, setDisabled] = useState(false);
+  useEffect(() => {
+    const disable = task.completed || task.deleted;
+    setDisabled(disable);
+  }, [task.completed, task.deleted]);
+
   const handleClickCheckBox = () => {
-    dispatch({ type: "DO_TODO", id: task.id });
+    dispatch({ type: task.completed ? "UNDO_TODO" : "DO_TODO", id: task.id });
   };
 
   const handleClickDelete = () => {
@@ -34,7 +40,6 @@ const TaskItem = ({ dispatch, disabled, task }) => {
             edge="start"
             tabIndex={-1}
             onClick={handleClickCheckBox}
-            disabled={disabled}
             checked={disabled}
           />
         </ListItemIcon>

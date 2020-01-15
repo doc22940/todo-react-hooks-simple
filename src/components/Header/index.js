@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -40,15 +40,26 @@ const menuOptions = [
   }
 ];
 
-const Header = ({ title, handleToggle, handleMenuClick }) => {
+const Header = ({ title, handleToggle, dispatch }) => {
   const classes = useStyles();
 
   const [anchorEl, setAnchorEl] = useState(null);
+
   const [selectedIndex, setSelectedIndex] = useState(0);
+
   // Boolean to check if the user as clicked an action in the menu
   // Useful to prevent toggling of text if the menu close when
   // the user click outside the menu.
   const [menuItemSelected, setMenuItemSelected] = useState(false);
+
+  const [showComplete, setShowComplete] = useState(false);
+  useEffect(() => {
+    if (showComplete) {
+      dispatch({ type: "SHOW_ALL" });
+    } else {
+      dispatch({ type: "SHOW_INCOMPLETE" });
+    }
+  }, [showComplete, dispatch]);
 
   const handleClickMore = event => {
     setAnchorEl(event.currentTarget);
@@ -59,7 +70,9 @@ const Header = ({ title, handleToggle, handleMenuClick }) => {
     setSelectedIndex(index);
     setAnchorEl(null);
 
-    handleMenuClick(menuOptions[index].action);
+    if (menuOptions[index].action === "complete") {
+      setShowComplete(!showComplete);
+    }
     setMenuItemSelected(true);
   };
 
