@@ -1,48 +1,40 @@
 import React from "react";
 import List from "@material-ui/core/List";
-import Task from "./Task";
+import TaskItem from "./TaskItem";
 
-const TaskList = ({
-  list,
-  onCheckBoxClicked,
-  onDeleteClicked,
-  showCompleted,
-  projectSelected
-}) => {
+const TaskList = ({ tasks, dispatch, showCompleted, projectSelected }) => {
   return (
     <List>
-      {list
+      {tasks
         .filter(
-          item =>
-            item.completed == false &&
-            item.deleted == false &&
-            item.project == projectSelected
+          task =>
+            task.completed == false &&
+            task.deleted == false &&
+            task.project == projectSelected
         )
-        .map(item => (
-          <Task
-            key={item.id}
-            onDeleteClicked={onDeleteClicked}
-            onCheckBoxClicked={onCheckBoxClicked}
+        .map(task => (
+          <TaskItem
+            key={task.id}
+            dispatch={dispatch}
             disabled={false}
-            item={item}
+            task={task}
           />
         ))}
       {/* Show the completed task at the end */}
       {showCompleted
-        ? list
+        ? tasks
             .filter(
-              item =>
-                item.completed == true &&
-                item.deleted == false &&
-                item.project == projectSelected
+              task =>
+                task.completed == true &&
+                task.deleted == false &&
+                task.project == projectSelected
             )
-            .map(item => (
-              <Task
-                key={item.id}
-                onDeleteClicked={onDeleteClicked}
-                onCheckBoxClicked={onCheckBoxClicked}
+            .map(task => (
+              <TaskItem
+                key={task.id}
+                dispatch={dispatch}
                 disabled={true}
-                item={item}
+                task={task}
               />
             ))
         : ""}

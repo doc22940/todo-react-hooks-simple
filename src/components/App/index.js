@@ -47,37 +47,9 @@ const App = () => {
 
   const [tasks, dispatchTasks] = useReducer(taskReducer, []);
 
-  const [taskName, setTaskName] = useState("");
   const [drawerMobileOpen, setDrawerMobileOpen] = useState(false);
   const [showCompleted, setShowCompleted] = useState(false);
   const [project, setProject] = useState("Inbox");
-
-  const onInputChange = event => setTaskName(event.target.value);
-
-  const onTaskSubmit = event => {
-    const id = tasks.length;
-    if (taskName) {
-      dispatchTasks({
-        type: "ADD_TODO",
-        id: id,
-        name: taskName,
-        project: "Inbox",
-        completed: false,
-        delete: false
-      });
-    }
-
-    setTaskName("");
-    event.preventDefault();
-  };
-
-  const onCheckBoxClicked = taskCompletedId => {
-    dispatchTasks({ type: "DO_TODO", id: taskCompletedId });
-  };
-
-  const onDeleteClicked = taskDeletedId => {
-    dispatchTasks({ type: "DELETE_TODO", id: taskDeletedId });
-  };
 
   const handleDrawerToggle = () => {
     console.log("handle");
@@ -130,17 +102,12 @@ const App = () => {
           <div className={classes.toolbar} />
           <Container fixed>
             <TaskList
-              list={tasks}
-              onCheckBoxClicked={onCheckBoxClicked}
-              onDeleteClicked={onDeleteClicked}
+              tasks={tasks}
+              dispatch={dispatchTasks}
               showCompleted={showCompleted}
               projectSelected={project}
             />
-            <AddTask
-              value={taskName}
-              onSubmit={onTaskSubmit}
-              onChange={onInputChange}
-            />
+            <AddTask dispatch={dispatchTasks} />
           </Container>
         </main>
       </div>

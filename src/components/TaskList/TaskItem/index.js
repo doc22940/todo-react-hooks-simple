@@ -15,8 +15,16 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const Task = ({ onDeleteClicked, onCheckBoxClicked, disabled, item }) => {
+const TaskItem = ({ dispatch, disabled, task }) => {
   const classes = useStyles();
+
+  const handleClickCheckBox = () => {
+    dispatch({ type: "DO_TODO", id: task.id });
+  };
+
+  const handleClickDelete = () => {
+    dispatch({ type: "DELETE_TODO", id: task.id });
+  };
 
   return (
     <Fragment>
@@ -25,13 +33,13 @@ const Task = ({ onDeleteClicked, onCheckBoxClicked, disabled, item }) => {
           <Checkbox
             edge="start"
             tabIndex={-1}
-            onClick={() => onCheckBoxClicked(item.id)}
+            onClick={handleClickCheckBox}
             disabled={disabled}
             checked={disabled}
           />
         </ListItemIcon>
-        <ListItemText primary={item.name} />
-        <ListItemSecondaryAction onClick={() => onDeleteClicked(item.id)}>
+        <ListItemText primary={task.name} />
+        <ListItemSecondaryAction onClick={handleClickDelete}>
           <IconButton edge="end" aria-label="delete">
             <DeleteForeverIcon />
           </IconButton>
@@ -42,4 +50,4 @@ const Task = ({ onDeleteClicked, onCheckBoxClicked, disabled, item }) => {
   );
 };
 
-export default Task;
+export default TaskItem;
