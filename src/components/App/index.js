@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useReducer } from "react";
 import AddTask from "../AddTask";
 import TaskList from "../../components/TaskList";
 import Header from "../Header";
@@ -17,50 +17,66 @@ const useStyles = makeStyles(theme => ({
   toolbar: theme.mixins.toolbar
 }));
 
+const taskReducer = (state, action) => {
+  switch (action.type) {
+    case "ADD_TODO": {
+      const task = {
+        id: action.id,
+        name: action.name,
+        project: action.project,
+        completed: false,
+        deleted: false
+      };
+      return [...state, task];
+    }
+    case "DO_TODO":
+      return state.map(task =>
+        task.id == action.id ? { ...task, completed: true } : task
+      );
+    case "DELETE_TODO":
+      return state.map(task =>
+        task.id == action.id ? { ...task, deleted: true } : task
+      );
+    default:
+      throw new Error();
+  }
+};
+
 const App = () => {
   const classes = useStyles();
 
-  const [taskDescription, setTaskDescription] = useState("");
-  const [tasksList, setTasksList] = useState([]);
+  const [tasks, dispatchTasks] = useReducer(taskReducer, []);
+
+  const [taskName, setTaskName] = useState("");
   const [drawerMobileOpen, setDrawerMobileOpen] = useState(false);
   const [showCompleted, setShowCompleted] = useState(false);
   const [project, setProject] = useState("Inbox");
 
-  const onInputChange = event => setTaskDescription(event.target.value);
+  const onInputChange = event => setTaskName(event.target.value);
 
   const onTaskSubmit = event => {
-    const id = tasksList.length;
-    const task = {
-      id: id,
-      name: taskDescription,
-      project: project,
-      completed: false,
-      deleted: false
-    };
-    const updatedTasksList = [...tasksList, task];
+    const id = tasks.length;
+    if (taskName) {
+      dispatchTasks({
+        type: "ADD_TODO",
+        id: id,
+        name: taskName,
+        project: "Inbox",
+        completed: false,
+        delete: false
+      });
+    }
 
-    console.log(updatedTasksList);
-
-    setTasksList(updatedTasksList);
-    setTaskDescription("");
+    setTaskName("");
     event.preventDefault();
   };
 
   const onCheckBoxClicked = taskCompletedId => {
-    // Mark the task as complete
-    const updatedTasksList = tasksList.map(item =>
-      item.id == taskCompletedId ? { ...item, completed: true } : item
-    );
-    console.log(updatedTasksList);
-    setTasksList(updatedTasksList);
+    dispatchTasks({ type: "DO_TODO", id: taskCompletedId });
   };
 
   const onDeleteClicked = taskDeletedId => {
-    const updatedTasksList = tasksList.map(item =>
-      item.id == taskDeletedId ? { ...item, deleted: true } : item
-    );
-    console.log(updatedTasksList);
-    setTasksList(updatedTasksList);
+    dispatchTasks({ type: "DELETE_TODO", id: taskDeletedId });
   };
 
   const handleDrawerToggle = () => {
@@ -82,16 +98,16 @@ const App = () => {
 
   const handleProjectRemove = project => {
     console.log("handleProjectRemove");
-    console.log(tasksList);
+    console.log(tasks);
     // Switch to Inbox when a project is deleted
     setProject("Inbox");
 
-    const updatedTasksList = tasksList.map(item =>
+    const updatedTasksList = tasks.map(item =>
       item.project == project ? { ...item, deleted: true } : item
     );
 
     console.log(updatedTasksList);
-    setTasksList(updatedTasksList);
+    //setTasks(updatedTasksList);
   };
 
   return (
@@ -114,14 +130,14 @@ const App = () => {
           <div className={classes.toolbar} />
           <Container fixed>
             <TaskList
-              list={tasksList}
+              list={tasks}
               onCheckBoxClicked={onCheckBoxClicked}
               onDeleteClicked={onDeleteClicked}
               showCompleted={showCompleted}
               projectSelected={project}
             />
             <AddTask
-              value={taskDescription}
+              value={taskName}
               onSubmit={onTaskSubmit}
               onChange={onInputChange}
             />
