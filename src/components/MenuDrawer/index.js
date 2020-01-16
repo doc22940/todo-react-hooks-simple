@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Divider from "@material-ui/core/Divider";
 import Drawer from "@material-ui/core/Drawer";
 import Hidden from "@material-ui/core/Hidden";
@@ -7,9 +7,6 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import ExpandLess from "@material-ui/icons/ExpandLess";
-import ExpandMore from "@material-ui/icons/ExpandMore";
-import FormatListBulletedIcon from "@material-ui/icons/FormatListBulleted";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import CollapsableMenu from "./CollapsableMenu";
 
@@ -35,12 +32,6 @@ const MenuDrawer = ({ dispatch, projects, mobileOpen, handleDrawerToggle }) => {
   const classes = useStyles();
   const theme = useTheme();
 
-  const [nestedOpen, setNestedOpen] = useState(true);
-
-  const handleClick = () => {
-    setNestedOpen(!nestedOpen);
-  };
-
   const drawer = (
     <div>
       <div className={classes.toolbar} />
@@ -59,18 +50,16 @@ const MenuDrawer = ({ dispatch, projects, mobileOpen, handleDrawerToggle }) => {
           </ListItemIcon>
           <ListItemText primary={projects[0].name} />
         </ListItem>
-        <ListItem button onClick={handleClick}>
-          <ListItemIcon>
-            <FormatListBulletedIcon />
-          </ListItemIcon>
-          <ListItemText primary="Project" />
-          {nestedOpen ? <ExpandLess /> : <ExpandMore />}
-        </ListItem>
         <CollapsableMenu
           dispatch={dispatch}
-          nestedOpen={nestedOpen}
           projects={projects}
+          label="Project"
         />
+        {/*  <CollapsableMenu
+          dispatch={dispatch}
+          projects={projects}
+          label="Labels"
+        /> */}
       </List>
     </div>
   );

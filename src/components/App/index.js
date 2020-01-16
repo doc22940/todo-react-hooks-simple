@@ -87,7 +87,7 @@ const App = () => {
     { name: "Inbox", selected: true }
   ]);
 
-  const [projectSelected, setProjectSelected] = useState(projects[0].name);
+  const [projectSelected, setProjectSelected] = useState("");
   useEffect(() => {
     const selected = projects.find(item => item.selected);
 
@@ -107,20 +107,6 @@ const App = () => {
     setDrawerMobileOpen(!drawerMobileOpen);
   };
 
-  const handleProjectRemove = project => {
-    console.log("handleProjectRemove");
-    console.log(tasks);
-    // Switch to Inbox when a project is deleted
-    setProjectSelected("Inbox");
-
-    const updatedTasksList = tasks.map(item =>
-      item.project == project ? { ...item, deleted: true } : item
-    );
-
-    console.log(updatedTasksList);
-    //setTasks(updatedTasksList);
-  };
-
   return (
     <Fragment>
       <CssBaseline />
@@ -135,7 +121,6 @@ const App = () => {
           projects={projects}
           mobileOpen={drawerMobileOpen}
           handleDrawerToggle={handleDrawerToggle}
-          handleProjectRemove={handleProjectRemove}
         />
         <main className={classes.content}>
           <div className={classes.toolbar} />

@@ -2,15 +2,15 @@ import React, { Fragment, useState } from "react";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
 import List from "@material-ui/core/List";
 import Collapse from "@material-ui/core/Collapse";
 import AddIcon from "@material-ui/icons/Add";
-import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
-import IconButton from "@material-ui/core/IconButton";
-import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ProjectDialog from "../../ProjectDialog";
 import { makeStyles } from "@material-ui/core/styles";
+import FormatListBulletedIcon from "@material-ui/icons/FormatListBulleted";
+import ExpandLess from "@material-ui/icons/ExpandLess";
+import ExpandMore from "@material-ui/icons/ExpandMore";
+import CollapsableMenuItem from "./CollapsableMenuItem";
 
 const useStyles = makeStyles(theme => ({
   nested: {
@@ -18,10 +18,15 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const CollapsableMenu = ({ dispatch, nestedOpen, projects }) => {
+const CollapsableMenu = ({ dispatch, projects, label }) => {
   const classes = useStyles();
 
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [nestedOpen, setNestedOpen] = useState(true);
+
+  const handleClick = () => {
+    setNestedOpen(!nestedOpen);
+  };
 
   const handleDialogOpen = () => {
     setDialogOpen(true);
@@ -31,40 +36,26 @@ const CollapsableMenu = ({ dispatch, nestedOpen, projects }) => {
     setDialogOpen(false);
   };
 
-  const handleProjectClick = project => {
-    dispatch({ type: "PROJECT_SELECTED", name: project });
-  };
-
-  const handleDeleteProject = project => {
-    dispatch({ type: "PROJECT_DELETED", name: project });
-  };
-
   return (
     <Fragment>
+      <ListItem button onClick={handleClick}>
+        <ListItemIcon>
+          <FormatListBulletedIcon />
+        </ListItemIcon>
+        <ListItemText primary={label} />
+        {nestedOpen ? <ExpandLess /> : <ExpandMore />}
+      </ListItem>
       <Collapse in={nestedOpen} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
           {projects
             // Don't show "Inbox" in project
             .filter(project => project.name != "Inbox")
             .map(project => (
-              <ListItem
-                button
+              <CollapsableMenuItem
                 key={project.name}
-                onClick={() => handleProjectClick(project.name)}
-                className={classes.nested}
-              >
-                <ListItemIcon>
-                  <InboxIcon />
-                </ListItemIcon>
-                <ListItemText primary={project.name} />
-                <ListItemSecondaryAction
-                  onClick={() => handleDeleteProject(project.name)}
-                >
-                  <IconButton edge="end" aria-label="delete">
-                    <DeleteForeverIcon />
-                  </IconButton>
-                </ListItemSecondaryAction>
-              </ListItem>
+                dispatch={dispatch}
+                project={project.name}
+              />
             ))}
           <ListItem
             button
@@ -74,7 +65,7 @@ const CollapsableMenu = ({ dispatch, nestedOpen, projects }) => {
             <ListItemIcon>
               <AddIcon />
             </ListItemIcon>
-            <ListItemText primary="Add Project" />
+            <ListItemText primary={`Add ${label}`} />
           </ListItem>
         </List>
       </Collapse>
