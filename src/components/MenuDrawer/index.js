@@ -10,12 +10,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import FormatListBulletedIcon from "@material-ui/icons/FormatListBulleted";
-import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogTitle from "@material-ui/core/DialogTitle";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import ProjectDialog from "../ProjectDialog";
 import CollapsableMenu from "./CollapsableMenu";
 
 const drawerWidth = 240;
@@ -37,9 +32,10 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const MenuDrawer = ({
+  dispatch,
+  projects,
   mobileOpen,
   handleDrawerToggle,
-  handleProjectClick,
   handleProjectRemove
 }) => {
   const classes = useStyles();
@@ -47,41 +43,10 @@ const MenuDrawer = ({
 
   const [menuProjects, setMenuProjects] = useState([]);
   const [nestedOpen, setNestedOpen] = useState(true);
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [alertDialogOpen, setAlertDialogOpen] = useState(false);
-  const [project, setProject] = useState("");
 
   const handleClick = () => {
     setNestedOpen(!nestedOpen);
   };
-
-  const handleDialogOpen = () => {
-    setDialogOpen(true);
-  };
-
-  const handleDialogClose = event => {
-    setDialogOpen(false);
-    console.log(event);
-  };
-
-  const handleAlertDialogClose = () => {
-    setAlertDialogOpen(false);
-  };
-
-  const onProjectSubmit = event => {
-    if (!menuProjects.includes(project)) {
-      const updatedMenuProjects = [...menuProjects, project];
-      setMenuProjects(updatedMenuProjects);
-    } else {
-      // Don't create the object and tell the user it already exists
-      setAlertDialogOpen(true);
-    }
-
-    setProject("");
-    event.preventDefault();
-  };
-
-  const onDialogInputChange = event => setProject(event.target.value);
 
   const removeProject = project => {
     const updatedMenuProjects = menuProjects.filter(item => item != project);
@@ -101,13 +66,15 @@ const MenuDrawer = ({
         {/* Add Inbox as default project */}
         <ListItem
           button
-          key={"Inbox"}
-          onClick={() => handleProjectClick("Inbox")}
+          key={projects[0].name}
+          onClick={() =>
+            dispatch({ type: "PROJECT_SELECTED", name: projects[0].name })
+          }
         >
           <ListItemIcon>
             <InboxIcon />
           </ListItemIcon>
-          <ListItemText primary={"Inbox"} />
+          <ListItemText primary={projects[0].name} />
         </ListItem>
         <ListItem button onClick={handleClick}>
           <ListItemIcon>
@@ -117,35 +84,13 @@ const MenuDrawer = ({
           {nestedOpen ? <ExpandLess /> : <ExpandMore />}
         </ListItem>
         <CollapsableMenu
+          dispatch={dispatch}
           nestedOpen={nestedOpen}
+          projects={projects}
           menuProjects={menuProjects}
-          handleProjectClick={handleProjectClick}
           removeProject={removeProject}
-          handleDialogOpen={handleDialogOpen}
         />
       </List>
-      <ProjectDialog
-        open={dialogOpen}
-        handleClose={handleDialogClose}
-        value={project}
-        onChange={onDialogInputChange}
-        onSubmit={onProjectSubmit}
-      />
-      <Dialog
-        open={alertDialogOpen}
-        onClose={handleAlertDialogClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {"This project already exists."}
-        </DialogTitle>
-        <DialogActions>
-          <Button onClick={handleAlertDialogClose} color="primary">
-            Ok
-          </Button>
-        </DialogActions>
-      </Dialog>
     </div>
   );
 

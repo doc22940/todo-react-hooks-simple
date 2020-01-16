@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useReducer } from "react";
+import React, { useState, Fragment, useReducer, useEffect } from "react";
 import AddTask from "../AddTask";
 import TaskList from "../../components/TaskList";
 import Header from "../Header";
@@ -57,30 +57,53 @@ const filterReducer = (state, action) => {
   }
 };
 
+const projectsReducer = (state, action) => {
+  switch (action.type) {
+    case "ADD_PROJECT":
+      console.log(`project name: ${action.name}`);
+      return [...state, { name: action.name, selected: action.selected }];
+    case "DELETE_PROJECT":
+      return;
+    case "PROJECT_SELECTED": {
+      console.log("project selected");
+      return state.map(project =>
+        project.name == action.name
+          ? { ...project, selected: true }
+          : { ...project, selected: false }
+      );
+    }
+    default:
+      throw new Error();
+  }
+};
+
 const App = () => {
   const classes = useStyles();
 
   const [tasks, dispatchTasks] = useReducer(taskReducer, []);
   const [filter, dispatchFilter] = useReducer(filterReducer, "INCOMPLETE");
+  const [projects, dispatchProjects] = useReducer(projectsReducer, [
+    { name: "Inbox", selected: true }
+  ]);
+
+  const [projectSelected, setProjectSelected] = useState(projects[0].name);
+  useEffect(() => {
+    const selected = projects.find(item => item.selected);
+    setProjectSelected(selected.name);
+  }, [projects]);
 
   const [drawerMobileOpen, setDrawerMobileOpen] = useState(false);
-  const [project, setProject] = useState("Inbox");
 
   const handleDrawerToggle = () => {
     console.log("handle");
     setDrawerMobileOpen(!drawerMobileOpen);
   };
 
-  const handleProjectClick = projectClicked => {
-    setProject(projectClicked);
-    handleDrawerToggle;
-  };
-
   const handleProjectRemove = project => {
     console.log("handleProjectRemove");
     console.log(tasks);
     // Switch to Inbox when a project is deleted
-    setProject("Inbox");
+    setProjectSelected("Inbox");
 
     const updatedTasksList = tasks.map(item =>
       item.project == project ? { ...item, deleted: true } : item
@@ -95,14 +118,15 @@ const App = () => {
       <CssBaseline />
       <div className={classes.root}>
         <Header
-          title={project}
+          title={projectSelected}
           handleToggle={handleDrawerToggle}
           dispatch={dispatchFilter}
         />
         <MenuDrawer
+          dispatch={dispatchProjects}
+          projects={projects}
           mobileOpen={drawerMobileOpen}
           handleDrawerToggle={handleDrawerToggle}
-          handleProjectClick={handleProjectClick}
           handleProjectRemove={handleProjectRemove}
         />
         <main className={classes.content}>
@@ -112,9 +136,9 @@ const App = () => {
               tasks={tasks}
               filter={filter}
               dispatch={dispatchTasks}
-              projectSelected={project}
+              project={projectSelected}
             />
-            <AddTask dispatch={dispatchTasks} />
+            <AddTask dispatch={dispatchTasks} project={projectSelected} />
           </Container>
         </main>
       </div>

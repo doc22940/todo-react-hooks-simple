@@ -4,7 +4,7 @@ import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import uuid from "uuid/v4";
 
-const AddTask = ({ dispatch }) => {
+const AddTask = ({ dispatch, project }) => {
   const [task, setTask] = useState("");
 
   const handleSubmit = event => {
@@ -13,7 +13,7 @@ const AddTask = ({ dispatch }) => {
         type: "ADD_TODO",
         id: uuid(),
         name: task,
-        project: "Inbox",
+        project: project,
         completed: false,
         delete: false
       });

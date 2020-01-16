@@ -2,22 +2,34 @@ import React, { useState, useEffect } from "react";
 import List from "@material-ui/core/List";
 import TaskItem from "./TaskItem";
 
-const TaskList = ({ tasks, filter, dispatch }) => {
+const TaskList = ({ tasks, filter, dispatch, project }) => {
   // Filter task according to the filter state
   const [filteredTask, setFilteredTask] = useState([]);
   useEffect(() => {
-    const incompleteTasks = tasks.filter(
+    // Filter by project selected
+    const projectTasks = tasks.filter(task => task.project == project);
+
+    const incompleteTasks = projectTasks.filter(
       task => !task.completed && !task.deleted
     );
-    const completeTasks = tasks.filter(task => task.completed && !task.deleted);
 
-    if (filter === "ALL") {
-      // Show the complete tasks at the end.
-      setFilteredTask([...incompleteTasks, ...completeTasks]);
-    } else if (filter === "INCOMPLETE") {
-      setFilteredTask(incompleteTasks);
+    // case show ALL
+    const completeTasks = projectTasks.filter(
+      task => task.completed && !task.deleted
+    );
+
+    switch (filter) {
+      case "ALL":
+        // Show the complete tasks at the end.
+        setFilteredTask([...incompleteTasks, ...completeTasks]);
+        break;
+      case "INCOMPLETE":
+        setFilteredTask(incompleteTasks);
+        break;
+      default:
+        throw new Error();
     }
-  }, [filter, tasks]);
+  }, [filter, tasks, project]);
 
   return (
     <List>
