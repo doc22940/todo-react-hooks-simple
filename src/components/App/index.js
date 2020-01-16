@@ -64,14 +64,15 @@ const projectsReducer = (state, action) => {
       return [...state, { name: action.name, selected: action.selected }];
     case "DELETE_PROJECT":
       return;
-    case "PROJECT_SELECTED": {
+    case "PROJECT_SELECTED":
       console.log("project selected");
       return state.map(project =>
         project.name == action.name
           ? { ...project, selected: true }
           : { ...project, selected: false }
       );
-    }
+    case "PROJECT_DELETED":
+      return state.filter(project => project.name != action.name);
     default:
       throw new Error();
   }
@@ -89,7 +90,14 @@ const App = () => {
   const [projectSelected, setProjectSelected] = useState(projects[0].name);
   useEffect(() => {
     const selected = projects.find(item => item.selected);
-    setProjectSelected(selected.name);
+
+    // If selected project was deleted
+    // Select "Inbox"
+    if (selected === undefined) {
+      setProjectSelected(projects[0].name);
+    } else {
+      setProjectSelected(selected.name);
+    }
   }, [projects]);
 
   const [drawerMobileOpen, setDrawerMobileOpen] = useState(false);

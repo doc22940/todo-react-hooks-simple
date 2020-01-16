@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const CollapsableMenu = ({ dispatch, nestedOpen, projects, removeProject }) => {
+const CollapsableMenu = ({ dispatch, nestedOpen, projects }) => {
   const classes = useStyles();
 
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -27,13 +27,16 @@ const CollapsableMenu = ({ dispatch, nestedOpen, projects, removeProject }) => {
     setDialogOpen(true);
   };
 
-  const handleDialogClose = event => {
+  const handleDialogClose = () => {
     setDialogOpen(false);
-    console.log(event);
   };
 
   const handleProjectClick = project => {
     dispatch({ type: "PROJECT_SELECTED", name: project });
+  };
+
+  const handleDeleteProject = project => {
+    dispatch({ type: "PROJECT_DELETED", name: project });
   };
 
   return (
@@ -41,6 +44,7 @@ const CollapsableMenu = ({ dispatch, nestedOpen, projects, removeProject }) => {
       <Collapse in={nestedOpen} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
           {projects
+            // Don't show "Inbox" in project
             .filter(project => project.name != "Inbox")
             .map(project => (
               <ListItem
@@ -53,7 +57,9 @@ const CollapsableMenu = ({ dispatch, nestedOpen, projects, removeProject }) => {
                   <InboxIcon />
                 </ListItemIcon>
                 <ListItemText primary={project.name} />
-                <ListItemSecondaryAction onClick={() => removeProject(project)}>
+                <ListItemSecondaryAction
+                  onClick={() => handleDeleteProject(project.name)}
+                >
                   <IconButton edge="end" aria-label="delete">
                     <DeleteForeverIcon />
                   </IconButton>

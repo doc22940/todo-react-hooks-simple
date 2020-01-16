@@ -31,31 +31,14 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const MenuDrawer = ({
-  dispatch,
-  projects,
-  mobileOpen,
-  handleDrawerToggle,
-  handleProjectRemove
-}) => {
+const MenuDrawer = ({ dispatch, projects, mobileOpen, handleDrawerToggle }) => {
   const classes = useStyles();
   const theme = useTheme();
 
-  const [menuProjects, setMenuProjects] = useState([]);
   const [nestedOpen, setNestedOpen] = useState(true);
 
   const handleClick = () => {
     setNestedOpen(!nestedOpen);
-  };
-
-  const removeProject = project => {
-    const updatedMenuProjects = menuProjects.filter(item => item != project);
-    console.log(project);
-    console.log(menuProjects);
-    console.log(updatedMenuProjects);
-    setMenuProjects(updatedMenuProjects);
-
-    handleProjectRemove(project);
   };
 
   const drawer = (
@@ -87,8 +70,6 @@ const MenuDrawer = ({
           dispatch={dispatch}
           nestedOpen={nestedOpen}
           projects={projects}
-          menuProjects={menuProjects}
-          removeProject={removeProject}
         />
       </List>
     </div>
