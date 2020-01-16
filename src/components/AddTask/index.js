@@ -14,6 +14,7 @@ const AddTask = ({ dispatch, project }) => {
         id: uuid(),
         name: task,
         project: project,
+        label: "none",
         completed: false,
         delete: false
       });

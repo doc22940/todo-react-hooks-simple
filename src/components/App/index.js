@@ -24,6 +24,7 @@ const taskReducer = (state, action) => {
         id: action.id,
         name: action.name,
         project: action.project,
+        label: action.label,
         completed: false,
         deleted: false
       };
@@ -40,6 +41,11 @@ const taskReducer = (state, action) => {
     case "DELETE_TODO":
       return state.map(task =>
         task.id == action.id ? { ...task, deleted: true } : task
+      );
+    case "ADD_LABEL":
+      console.log("add label");
+      return state.map(task =>
+        task.id == action.id ? { ...task, label: action.label } : task
       );
     default:
       throw new Error();
@@ -85,7 +91,11 @@ const labelsReducer = (state, action) => {
       return [...state, { name: action.name, selected: action.selected }];
     case "LABEL_SELECTED":
       console.log("label selected");
-      return [...state, { name: action.name, selected: action.selected }];
+      return state.map(label =>
+        label.name == action.name
+          ? { ...label, selected: true }
+          : { ...label, selected: false }
+      );
     case "LABEL_DELETED":
       console.log("label deleted");
       return state.filter(label => label.name != label.name);
@@ -149,6 +159,7 @@ const App = () => {
               filter={filter}
               dispatch={dispatchTasks}
               project={projectSelected}
+              labels={labels}
             />
             <AddTask dispatch={dispatchTasks} project={projectSelected} />
           </Container>

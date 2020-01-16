@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import List from "@material-ui/core/List";
 import TaskItem from "./TaskItem";
 
-const TaskList = ({ tasks, filter, dispatch, project }) => {
+const TaskList = ({ tasks, filter, dispatch, project, labels }) => {
   // Filter task according to the filter state
   const [filteredTask, setFilteredTask] = useState([]);
   useEffect(() => {
@@ -34,7 +34,12 @@ const TaskList = ({ tasks, filter, dispatch, project }) => {
   return (
     <List>
       {filteredTask.map(task => (
-        <TaskItem key={task.id} dispatch={dispatch} task={task} />
+        <TaskItem
+          key={task.id}
+          dispatch={dispatch}
+          task={task}
+          labels={labels}
+        />
       ))}
     </List>
   );

@@ -17,12 +17,12 @@ const useStyles = makeStyles(theme => ({
 const CollapsableMenuItem = ({ dispatch, name, type, icon }) => {
   const classes = useStyles();
 
-  const handleItemClick = project => {
-    dispatch({ type: `${type}_SELECTED`, name: project });
+  const handleItemClick = name => {
+    dispatch({ type: `${type}_SELECTED`, name: name });
   };
 
-  const handleDeleteItem = project => {
-    dispatch({ type: `${type}_DELETED`, name: project });
+  const handleDeleteItem = name => {
+    dispatch({ type: `${type}_DELETED`, name: name });
   };
 
   return (
