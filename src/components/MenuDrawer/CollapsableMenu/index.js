@@ -5,12 +5,13 @@ import ListItemText from "@material-ui/core/ListItemText";
 import List from "@material-ui/core/List";
 import Collapse from "@material-ui/core/Collapse";
 import AddIcon from "@material-ui/icons/Add";
-import ProjectDialog from "../../ProjectDialog";
+import AddDialog from "../../AddDialog";
 import { makeStyles } from "@material-ui/core/styles";
 import FormatListBulletedIcon from "@material-ui/icons/FormatListBulleted";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import CollapsableMenuItem from "./CollapsableMenuItem";
+import uuid from "uuid/v4";
 
 const useStyles = makeStyles(theme => ({
   nested: {
@@ -18,7 +19,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const CollapsableMenu = ({ dispatch, projects, label }) => {
+const CollapsableMenu = ({ dispatch, items, label, type, icon }) => {
   const classes = useStyles();
 
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -47,14 +48,16 @@ const CollapsableMenu = ({ dispatch, projects, label }) => {
       </ListItem>
       <Collapse in={nestedOpen} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          {projects
+          {items
             // Don't show "Inbox" in project
-            .filter(project => project.name != "Inbox")
-            .map(project => (
+            .filter(item => item.name != "Inbox")
+            .map(item => (
               <CollapsableMenuItem
-                key={project.name}
+                key={uuid()}
                 dispatch={dispatch}
-                project={project.name}
+                name={item.name}
+                type={type}
+                icon={icon}
               />
             ))}
           <ListItem
@@ -65,15 +68,19 @@ const CollapsableMenu = ({ dispatch, projects, label }) => {
             <ListItemIcon>
               <AddIcon />
             </ListItemIcon>
-            <ListItemText primary={`Add ${label}`} />
+            <ListItemText
+              primary={`Add ${label.substring(0, label.length - 1)}`}
+            />
           </ListItem>
         </List>
       </Collapse>
-      <ProjectDialog
+      <AddDialog
         dispatch={dispatch}
-        projects={projects}
+        items={items}
         open={dialogOpen}
         handleClose={handleDialogClose}
+        type={type}
+        label={`${label.substring(0, label.length - 1)}`}
       />
     </Fragment>
   );

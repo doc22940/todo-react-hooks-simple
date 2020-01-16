@@ -78,6 +78,22 @@ const projectsReducer = (state, action) => {
   }
 };
 
+const labelsReducer = (state, action) => {
+  switch (action.type) {
+    case "ADD_LABEL":
+      console.log("add label");
+      return [...state, { name: action.name, selected: action.selected }];
+    case "LABEL_SELECTED":
+      console.log("label selected");
+      return [...state, { name: action.name, selected: action.selected }];
+    case "LABEL_DELETED":
+      console.log("label deleted");
+      return state.filter(label => label.name != label.name);
+    default:
+      throw new Error();
+  }
+};
+
 const App = () => {
   const classes = useStyles();
 
@@ -86,6 +102,7 @@ const App = () => {
   const [projects, dispatchProjects] = useReducer(projectsReducer, [
     { name: "Inbox", selected: true }
   ]);
+  const [labels, dispatchLabels] = useReducer(labelsReducer, []);
 
   const [projectSelected, setProjectSelected] = useState("");
   useEffect(() => {
@@ -118,7 +135,9 @@ const App = () => {
         />
         <MenuDrawer
           dispatch={dispatchProjects}
+          dispatchLabels={dispatchLabels}
           projects={projects}
+          labels={labels}
           mobileOpen={drawerMobileOpen}
           handleDrawerToggle={handleDrawerToggle}
         />

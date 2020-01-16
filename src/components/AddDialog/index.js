@@ -7,30 +7,30 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
-const ProjectDialog = ({ dispatch, projects, open, handleClose }) => {
-  const [project, setProject] = useState("");
+const AddDialog = ({ dispatch, items, label, type, open, handleClose }) => {
+  const [inputValue, setInputValue] = useState("");
   const [alertDialog, setAlertDialog] = useState(false);
 
   const handleSubmit = event => {
-    console.log(project);
+    console.log(inputValue);
     console.log("dispatch add");
-    // Check if project already exists
-    if (project) {
-      if (!projects.some(item => item.name == project)) {
+    // Check if item already exists
+    if (inputValue) {
+      if (!items.some(item => item.name == inputValue)) {
         console.log("dispatch add project");
-        dispatch({ type: "ADD_PROJECT", name: project, selected: false });
+        dispatch({ type: `ADD_${type}`, name: inputValue, selected: false });
       } else {
         setAlertDialog(true);
       }
     }
 
-    setProject("");
+    setInputValue("");
     event.preventDefault();
   };
 
   const handleChange = event => {
-    console.log(`handleChange: ${project}`);
-    setProject(event.target.value);
+    console.log(`handleChange: ${inputValue}`);
+    setInputValue(event.target.value);
   };
 
   const handleAlertDialogClose = () => {
@@ -44,17 +44,17 @@ const ProjectDialog = ({ dispatch, projects, open, handleClose }) => {
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
       >
-        <DialogTitle id="form-dialog-title">Project Name</DialogTitle>
+        <DialogTitle id="form-dialog-title">{`${label} name`}</DialogTitle>
         <DialogContent>
-          <DialogContentText>Please enter the project name</DialogContentText>
+          <DialogContentText>{`Please enter the ${label.toLowerCase()} name`}</DialogContentText>
           <form id="projectName" onSubmit={handleSubmit}>
             <TextField
               margin="dense"
               id="name"
-              label="Project Name"
+              label={`${label} Name`}
               type="text"
               fullWidth
-              value={project}
+              value={inputValue}
               onChange={handleChange}
             />
           </form>
@@ -81,7 +81,7 @@ const ProjectDialog = ({ dispatch, projects, open, handleClose }) => {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {"This project already exists."}
+          {`This ${label.toLowerCase()} already exists.`}
         </DialogTitle>
         <DialogActions>
           <Button onClick={handleAlertDialogClose} color="primary">
@@ -93,4 +93,4 @@ const ProjectDialog = ({ dispatch, projects, open, handleClose }) => {
   );
 };
 
-export default ProjectDialog;
+export default AddDialog;

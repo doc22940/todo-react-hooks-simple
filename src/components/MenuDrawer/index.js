@@ -2,7 +2,8 @@ import React from "react";
 import Divider from "@material-ui/core/Divider";
 import Drawer from "@material-ui/core/Drawer";
 import Hidden from "@material-ui/core/Hidden";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
+import InboxIcon from "@material-ui/icons/Inbox";
+import LabelIcon from "@material-ui/icons/Label";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
@@ -28,7 +29,14 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const MenuDrawer = ({ dispatch, projects, mobileOpen, handleDrawerToggle }) => {
+const MenuDrawer = ({
+  dispatch,
+  dispatchLabels,
+  projects,
+  labels,
+  mobileOpen,
+  handleDrawerToggle
+}) => {
   const classes = useStyles();
   const theme = useTheme();
 
@@ -52,8 +60,17 @@ const MenuDrawer = ({ dispatch, projects, mobileOpen, handleDrawerToggle }) => {
         </ListItem>
         <CollapsableMenu
           dispatch={dispatch}
-          projects={projects}
-          label="Project"
+          items={projects}
+          label="Projects"
+          type="PROJECT"
+          icon={<InboxIcon />}
+        />
+        <CollapsableMenu
+          dispatch={dispatchLabels}
+          items={labels}
+          label="Labels"
+          type="LABEL"
+          icon={<LabelIcon />}
         />
         {/*  <CollapsableMenu
           dispatch={dispatch}
