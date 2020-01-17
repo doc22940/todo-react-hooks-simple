@@ -11,7 +11,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import CollapsableMenu from "./CollapsableMenu";
 
-const drawerWidth = 240;
+const drawerWidth = 300;
 
 const useStyles = makeStyles(theme => ({
   drawer: {
@@ -42,22 +42,26 @@ const MenuDrawer = ({
 
   const inboxItem = { ...menuItems[0] };
 
+  const handleDrawerClick = () => {
+    if (mobileOpen) {
+      handleDrawerToggle();
+    }
+  };
+  const handleClick = () => {
+    dispatchMenuItemSelected({
+      type: "PROJECT_SELECTED",
+      ...inboxItem
+    });
+    handleDrawerClick();
+  };
+
   const drawer = (
     <div>
       <div className={classes.toolbar} />
       <Divider />
       <List>
         {/* Add Inbox as default project */}
-        <ListItem
-          button
-          key={inboxItem.name}
-          onClick={() =>
-            dispatchMenuItemSelected({
-              type: "PROJECT_SELECTED",
-              ...inboxItem
-            })
-          }
-        >
+        <ListItem button key={inboxItem.name} onClick={handleClick}>
           <ListItemIcon>
             <InboxIcon />
           </ListItemIcon>
@@ -72,6 +76,7 @@ const MenuDrawer = ({
           icon={<InboxIcon />}
           menuItemSelected={menuItemSelected}
           inboxItem={inboxItem}
+          handleDrawerClick={handleDrawerClick}
         />
         <CollapsableMenu
           dispatchMenuItemSelected={dispatchMenuItemSelected}
@@ -82,6 +87,7 @@ const MenuDrawer = ({
           icon={<LabelIcon />}
           menuItemSelected={menuItemSelected}
           inboxItem={inboxItem}
+          handleDrawerClick={handleDrawerClick}
         />
       </List>
     </div>

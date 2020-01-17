@@ -21,7 +21,8 @@ const CollapsableMenuItem = ({
   type,
   icon,
   menuItemSelected,
-  inboxItem
+  inboxItem,
+  handleDrawerClick
 }) => {
   const classes = useStyles();
 
@@ -32,6 +33,8 @@ const CollapsableMenuItem = ({
       name: name,
       menu: type
     });
+
+    handleDrawerClick();
   };
 
   const handleDeleteItem = () => {
