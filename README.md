@@ -1,3 +1,12 @@
+Todo list app built with:
+* React (hooks, reducer)
+* Material UI
+
+Features:
+* Create projects
+* Add labels to tasks
+* Show/Hide complete tasks
+
 ### Install dependencies
 
 `$ npm install`
