@@ -25,7 +25,9 @@ const CollapsableMenu = ({
   items,
   label,
   type,
-  icon
+  icon,
+  menuItemSelected,
+  inboxItem
 }) => {
   const classes = useStyles();
 
@@ -67,6 +69,8 @@ const CollapsableMenu = ({
                 id={item.id}
                 type={type}
                 icon={icon}
+                menuItemSelected={menuItemSelected}
+                inboxItem={inboxItem}
               />
             ))}
           <ListItem

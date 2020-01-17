@@ -34,7 +34,8 @@ const MenuDrawer = ({
   dispatchMenuItems,
   menuItems,
   mobileOpen,
-  handleDrawerToggle
+  handleDrawerToggle,
+  menuItemSelected
 }) => {
   const classes = useStyles();
   const theme = useTheme();
@@ -69,6 +70,8 @@ const MenuDrawer = ({
           label="Projects"
           type="PROJECT"
           icon={<InboxIcon />}
+          menuItemSelected={menuItemSelected}
+          inboxItem={inboxItem}
         />
         <CollapsableMenu
           dispatchMenuItemSelected={dispatchMenuItemSelected}
@@ -77,6 +80,8 @@ const MenuDrawer = ({
           label="Labels"
           type="LABEL"
           icon={<LabelIcon />}
+          menuItemSelected={menuItemSelected}
+          inboxItem={inboxItem}
         />
       </List>
     </div>

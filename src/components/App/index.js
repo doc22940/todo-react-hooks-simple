@@ -71,7 +71,7 @@ const menuItemsReducer = (state, action) => {
     case "ADD_PROJECT":
       return [...state, { id: action.id, name: action.name, menu: "PROJECT" }];
     case "DELETE":
-      return state.filter(item => item.id != item.id);
+      return state.filter(item => item.id != action.id);
     default:
       throw new Error();
   }
@@ -126,6 +126,7 @@ const App = () => {
           menuItems={menuItems}
           mobileOpen={drawerMobileOpen}
           handleDrawerToggle={handleDrawerToggle}
+          menuItemSelected={menuItemSelected}
         />
 
         <main className={classes.content}>

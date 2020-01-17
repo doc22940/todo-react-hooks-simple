@@ -19,7 +19,9 @@ const CollapsableMenuItem = ({
   name,
   id,
   type,
-  icon
+  icon,
+  menuItemSelected,
+  inboxItem
 }) => {
   const classes = useStyles();
 
@@ -34,6 +36,14 @@ const CollapsableMenuItem = ({
 
   const handleDeleteItem = () => {
     dispatchMenuItems({ type: "DELETE", id: id });
+    // If the deleted item is the selected one
+    if (menuItemSelected.id == id) {
+      // Select the Inbox
+      dispatchMenuItemSelected({
+        type: `${type}_SELECTED`,
+        ...inboxItem
+      });
+    }
   };
 
   return (
