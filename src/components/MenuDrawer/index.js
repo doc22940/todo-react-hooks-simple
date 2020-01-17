@@ -30,15 +30,16 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const MenuDrawer = ({
-  dispatch,
-  dispatchLabels,
-  projects,
-  labels,
+  dispatchMenuItemSelected,
+  dispatchMenuItems,
+  menuItems,
   mobileOpen,
   handleDrawerToggle
 }) => {
   const classes = useStyles();
   const theme = useTheme();
+
+  const inboxItem = { ...menuItems[0] };
 
   const drawer = (
     <div>
@@ -48,35 +49,35 @@ const MenuDrawer = ({
         {/* Add Inbox as default project */}
         <ListItem
           button
-          key={projects[0].name}
+          key={inboxItem.name}
           onClick={() =>
-            dispatch({ type: "PROJECT_SELECTED", name: projects[0].name })
+            dispatchMenuItemSelected({
+              type: "PROJECT_SELECTED",
+              ...inboxItem
+            })
           }
         >
           <ListItemIcon>
             <InboxIcon />
           </ListItemIcon>
-          <ListItemText primary={projects[0].name} />
+          <ListItemText primary={inboxItem.name} />
         </ListItem>
         <CollapsableMenu
-          dispatch={dispatch}
-          items={projects}
+          dispatchMenuItemSelected={dispatchMenuItemSelected}
+          dispatchMenuItems={dispatchMenuItems}
+          items={menuItems.filter(item => item.menu == "PROJECT")}
           label="Projects"
           type="PROJECT"
           icon={<InboxIcon />}
         />
         <CollapsableMenu
-          dispatch={dispatchLabels}
-          items={labels}
+          dispatchMenuItemSelected={dispatchMenuItemSelected}
+          dispatchMenuItems={dispatchMenuItems}
+          items={menuItems.filter(item => item.menu == "LABEL")}
           label="Labels"
           type="LABEL"
           icon={<LabelIcon />}
         />
-        {/*  <CollapsableMenu
-          dispatch={dispatch}
-          projects={projects}
-          label="Labels"
-        /> */}
       </List>
     </div>
   );

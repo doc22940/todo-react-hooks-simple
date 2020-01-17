@@ -40,7 +40,7 @@ const SelectedDialog = ({
 
   const handleSubmit = event => {
     console.log("add label submit");
-    dispatch({ type: "ADD_LABEL", id: taskId, label: value });
+    dispatch({ type: "ADD_LABEL", id: taskId, labelId: value });
 
     event.preventDefault();
   };
@@ -70,7 +70,7 @@ const SelectedDialog = ({
               >
                 <option value="none">None</option>
                 {labels.map(label => (
-                  <option key={uuid()} value={label.name}>
+                  <option key={uuid()} value={label.id}>
                     {label.name}
                   </option>
                 ))}

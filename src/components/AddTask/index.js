@@ -13,8 +13,8 @@ const AddTask = ({ dispatch, project }) => {
         type: "ADD_TODO",
         id: uuid(),
         name: task,
-        project: project,
-        label: "none",
+        projectId: project,
+        labelId: 0,
         completed: false,
         delete: false
       });

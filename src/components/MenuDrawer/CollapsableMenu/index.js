@@ -19,7 +19,14 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const CollapsableMenu = ({ dispatch, items, label, type, icon }) => {
+const CollapsableMenu = ({
+  dispatchMenuItemSelected,
+  dispatchMenuItems,
+  items,
+  label,
+  type,
+  icon
+}) => {
   const classes = useStyles();
 
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -49,13 +56,15 @@ const CollapsableMenu = ({ dispatch, items, label, type, icon }) => {
       <Collapse in={nestedOpen} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
           {items
-            // Don't show "Inbox" in project
-            .filter(item => item.name != "Inbox")
+            // Don't show Inbox in project menu
+            .filter(item => item.name !== "Inbox")
             .map(item => (
               <CollapsableMenuItem
                 key={uuid()}
-                dispatch={dispatch}
+                dispatchMenuItemSelected={dispatchMenuItemSelected}
+                dispatchMenuItems={dispatchMenuItems}
                 name={item.name}
+                id={item.id}
                 type={type}
                 icon={icon}
               />
@@ -75,7 +84,7 @@ const CollapsableMenu = ({ dispatch, items, label, type, icon }) => {
         </List>
       </Collapse>
       <AddDialog
-        dispatch={dispatch}
+        dispatchMenuItems={dispatchMenuItems}
         items={items}
         open={dialogOpen}
         handleClose={handleDialogClose}

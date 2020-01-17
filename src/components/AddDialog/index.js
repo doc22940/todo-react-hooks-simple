@@ -6,8 +6,16 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import uuid from "uuid/v4";
 
-const AddDialog = ({ dispatch, items, label, type, open, handleClose }) => {
+const AddDialog = ({
+  dispatchMenuItems,
+  items,
+  label,
+  type,
+  open,
+  handleClose
+}) => {
   const [inputValue, setInputValue] = useState("");
   const [alertDialog, setAlertDialog] = useState(false);
 
@@ -18,7 +26,12 @@ const AddDialog = ({ dispatch, items, label, type, open, handleClose }) => {
     if (inputValue) {
       if (!items.some(item => item.name == inputValue)) {
         console.log("dispatch add project");
-        dispatch({ type: `ADD_${type}`, name: inputValue, selected: false });
+        dispatchMenuItems({
+          type: `ADD_${type}`,
+          id: uuid(),
+          name: inputValue,
+          menu: type
+        });
       } else {
         setAlertDialog(true);
       }

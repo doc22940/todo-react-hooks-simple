@@ -5,7 +5,6 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import IconButton from "@material-ui/core/IconButton";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
-
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(theme => ({
@@ -14,15 +13,27 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const CollapsableMenuItem = ({ dispatch, name, type, icon }) => {
+const CollapsableMenuItem = ({
+  dispatchMenuItemSelected,
+  dispatchMenuItems,
+  name,
+  id,
+  type,
+  icon
+}) => {
   const classes = useStyles();
 
   const handleItemClick = name => {
-    dispatch({ type: `${type}_SELECTED`, name: name });
+    dispatchMenuItemSelected({
+      type: `${type}_SELECTED`,
+      id: id,
+      name: name,
+      menu: type
+    });
   };
 
-  const handleDeleteItem = name => {
-    dispatch({ type: `${type}_DELETED`, name: name });
+  const handleDeleteItem = () => {
+    dispatchMenuItems({ type: "DELETE", id: id });
   };
 
   return (
@@ -34,7 +45,7 @@ const CollapsableMenuItem = ({ dispatch, name, type, icon }) => {
       {/** Icon to show */}
       <ListItemIcon>{icon}</ListItemIcon>
       <ListItemText primary={name} />
-      <ListItemSecondaryAction onClick={() => handleDeleteItem(name)}>
+      <ListItemSecondaryAction onClick={() => handleDeleteItem()}>
         <IconButton edge="end" aria-label="delete">
           <DeleteForeverIcon />
         </IconButton>
