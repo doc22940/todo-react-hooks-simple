@@ -18,7 +18,6 @@ const TaskList = ({ tasks, filter, dispatch, selected, menuItems }) => {
       task => !task.completed && !task.deleted
     );
 
-    // case show ALL
     const completeTasks = selectedTasks.filter(
       task => task.completed && !task.deleted
     );

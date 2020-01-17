@@ -98,49 +98,47 @@ const Header = ({ title, handleToggle, dispatch }) => {
   };
 
   return (
-    <div className={classes.root}>
-      <AppBar position="fixed" className={classes.appBar}>
-        <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="menu"
-            onClick={handleToggle}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            {title}
-          </Typography>
-          <IconButton
-            aria-label="display more actions"
-            edge="end"
-            color="inherit"
-            onClick={handleClickMore}
-          >
-            <MoreIcon />
-          </IconButton>
-          <Menu
-            id="lock-menu"
-            anchorEl={anchorEl}
-            keepMounted
-            open={Boolean(anchorEl)}
-            onClose={handleClose}
-            onExited={handleTextSwaping}
-          >
-            {menuOptions.map((option, index) => (
-              <MenuItem
-                key={option.primaryOption}
-                onClick={event => handleMenuItemClick(event, index)}
-              >
-                {option.primaryOption}
-              </MenuItem>
-            ))}
-          </Menu>
-        </Toolbar>
-      </AppBar>
-    </div>
+    <AppBar position="fixed" className={classes.appBar}>
+      <Toolbar>
+        <IconButton
+          edge="start"
+          className={classes.menuButton}
+          color="inherit"
+          aria-label="menu"
+          onClick={handleToggle}
+        >
+          <MenuIcon />
+        </IconButton>
+        <Typography variant="h6" className={classes.title}>
+          {title}
+        </Typography>
+        <IconButton
+          aria-label="display more actions"
+          edge="end"
+          color="inherit"
+          onClick={handleClickMore}
+        >
+          <MoreIcon />
+        </IconButton>
+        <Menu
+          id="lock-menu"
+          anchorEl={anchorEl}
+          keepMounted
+          open={Boolean(anchorEl)}
+          onClose={handleClose}
+          onExited={handleTextSwaping}
+        >
+          {menuOptions.map((option, index) => (
+            <MenuItem
+              key={option.primaryOption}
+              onClick={event => handleMenuItemClick(event, index)}
+            >
+              {option.primaryOption}
+            </MenuItem>
+          ))}
+        </Menu>
+      </Toolbar>
+    </AppBar>
   );
 };
 

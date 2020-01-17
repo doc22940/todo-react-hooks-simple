@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useReducer, useEffect } from "react";
+import React, { useState, Fragment, useReducer } from "react";
 import AddTask from "../AddTask";
 import TaskList from "../../components/TaskList";
 import Header from "../Header";
@@ -131,7 +131,7 @@ const App = () => {
 
         <main className={classes.content}>
           <div className={classes.toolbar} />
-          <Container fixed>
+          <Container maxWidth="sm">
             <TaskList
               tasks={tasks}
               filter={filter}
