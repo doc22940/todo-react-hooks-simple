@@ -8,6 +8,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import uuid from "uuid/v4";
 
+// Create a new project or label
 const AddDialog = ({
   dispatchMenuItems,
   items,
@@ -20,12 +21,9 @@ const AddDialog = ({
   const [alertDialog, setAlertDialog] = useState(false);
 
   const handleSubmit = event => {
-    console.log(inputValue);
-    console.log("dispatch add");
     // Check if item already exists
     if (inputValue) {
       if (!items.some(item => item.name == inputValue)) {
-        console.log("dispatch add project");
         dispatchMenuItems({
           type: `ADD_${type}`,
           id: uuid(),
@@ -42,7 +40,6 @@ const AddDialog = ({
   };
 
   const handleChange = event => {
-    console.log(`handleChange: ${inputValue}`);
     setInputValue(event.target.value);
   };
 

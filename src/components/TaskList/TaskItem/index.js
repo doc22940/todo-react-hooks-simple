@@ -52,7 +52,6 @@ const TaskItem = ({ dispatch, task, labels }) => {
     setSelectedIndex(index);
     setAnchorEl(null);
     setOpenDialog(true);
-    console.log("menu item clicked");
   };
 
   const handleClose = () => {

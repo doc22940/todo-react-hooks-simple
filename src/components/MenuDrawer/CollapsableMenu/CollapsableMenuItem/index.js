@@ -41,7 +41,7 @@ const CollapsableMenuItem = ({
     dispatchMenuItems({ type: "DELETE", id: id });
     // If the deleted item is the selected one
     if (menuItemSelected.id == id) {
-      // Select the Inbox
+      // Select the Inbox by default
       dispatchMenuItemSelected({
         type: `${type}_SELECTED`,
         ...inboxItem

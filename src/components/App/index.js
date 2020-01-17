@@ -44,7 +44,6 @@ const taskReducer = (state, action) => {
         task.id == action.id ? { ...task, deleted: true } : task
       );
     case "ADD_LABEL":
-      console.log("add label");
       return state.map(task =>
         task.id == action.id ? { ...task, labelId: action.labelId } : task
       );
@@ -64,6 +63,7 @@ const filterReducer = (state, action) => {
   }
 };
 
+// Reducers creating items in the menu drawer
 const menuItemsReducer = (state, action) => {
   switch (action.type) {
     case "ADD_LABEL":
@@ -77,13 +77,12 @@ const menuItemsReducer = (state, action) => {
   }
 };
 
+// Manage the project or label selected
 const menuItemSelectedReducer = (state, action) => {
   switch (action.type) {
     case "LABEL_SELECTED":
-      console.log("menuItemSelectedReducer label");
       return { id: action.id, name: action.name, menu: action.menu };
     case "PROJECT_SELECTED":
-      console.log("menuItemSelectedReducer project");
       return { id: action.id, name: action.name, menu: action.menu };
     default:
       throw new Error();
@@ -107,7 +106,6 @@ const App = () => {
   const [drawerMobileOpen, setDrawerMobileOpen] = useState(false);
 
   const handleDrawerToggle = () => {
-    console.log("handle");
     setDrawerMobileOpen(!drawerMobileOpen);
   };
 

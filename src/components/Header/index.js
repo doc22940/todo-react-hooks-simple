@@ -48,7 +48,7 @@ const Header = ({ title, handleToggle, dispatch }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   // Boolean to check if the user as clicked an action in the menu
-  // Useful to prevent toggling of text if the menu close when
+  // Useful to prevent text swaping if the menu close when
   // the user click outside the menu.
   const [menuItemSelected, setMenuItemSelected] = useState(false);
 

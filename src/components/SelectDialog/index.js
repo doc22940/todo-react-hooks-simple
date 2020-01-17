@@ -11,6 +11,7 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import uuid from "uuid/v4";
 
+// Dialog used to select a label
 const useStyles = makeStyles(theme => ({
   container: {
     display: "flex",
@@ -34,12 +35,10 @@ const SelectedDialog = ({
   const [value, setValue] = useState("");
 
   const handleChange = event => {
-    console.log(event.target.value);
     setValue(event.target.value);
   };
 
   const handleSubmit = event => {
-    console.log("add label submit");
     dispatch({ type: "ADD_LABEL", id: taskId, labelId: value });
 
     event.preventDefault();
